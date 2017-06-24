@@ -6,7 +6,7 @@ data driven documents
 - tutorial02.html
 - tutorial03.html
 - tutorial04.html
-- line_chart1.html
+- line_chart1.html (https://bl.ocks.org/mbostock/3883245)
 
 # tutorial-sites
 * https://d3js.org/#introduction
