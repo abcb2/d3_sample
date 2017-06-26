@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<head>
+    <script src="d3.min.js"></script>
+    <style>
+        .axis text {
+            font: 10px sans-serif;
+        }
+
+        .axis path {
+            /*
+            fillとopacityで半透明な背景色。
+            */
+            fill: Aquamarine;
+            opacity: 0.1;
+            stroke: #000;
+            stroke-width: 1;
+            shape-rendering: crispEdges;
+        }
+
+        .axis line {
+            stroke: #000;
+            stroke-width: 1;
+            shape-rendering: crispEdges;
+        }
+
+        .line {
+            fill: none;
+            stroke: DarkGreen;
+            stroke-width: 1.5px;
+        }
+
+        div.detail {
+            position: absolute;
+            text-align: center;
+            width: 210px;
+            height: 38px;
+            padding: 2px;
+            font: 12px;
+            background: lightsteelblue;
+            border: 0px;
+            border-radius: 8px;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="biz">
+</div>
+<script type="text/javascript">
+    // http://deep-blend.com/jp/2014/05/d3-js-basic6-line-chart/
+    var margin = {top: 20, right: 20, bottom: 30, left: 40},
+        width = 700 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
+    var svg = d3.select("#biz").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    var gdp = [
+        {年: 2007, gdp: 524, 増減: "up"},
+        {年: 2008, gdp: 518, 増減: "down"},
+        {年: 2009, gdp: 490, 増減: "down"},
+        {年: 2010, gdp: 512, 増減: "up"},
+        {年: 2011, gdp: 510, 増減: "down"},
+        {年: 2012, gdp: 517, 増減: "up"},
+        {年: 2013, gdp: 525, 増減: "up"},
+        {年: 2014, gdp: 515, 増減: "up"}
+    ];
+    var xScale = d3.scaleLinear().domain([2007, 2014]).range([0, width]);
+    var yScale = d3.scaleLinear().domain([480, 530]).range([height, 0]);
+    var xAxis = d3.axisBottom(xScale).tickSize(6, -height).tickFormat(function (d) {
+        return d + "年";
+    });
+    var yAxis = d3.axisLeft(yScale).tickSize(6, -width);
+
+    var div = d3.select("body")
+        .append("div")
+        .attr("class", "detail")
+        .style("opacity", 0);
+
+    var line = d3.line()
+        .x(function (d) {
+            console.log(d);
+            return xScale(d["年"]);
+        })
+        .y(function (d) {
+            return yScale(d["gdp"]);
+        });
+    svg.selectAll("circle").data(gdp).enter()
+        .append("circle")
+        .attr("r", 5)
+        .attr("cx", function (d) {
+            return xScale(d["年"])
+        })
+        .attr("cy", function (d) {
+            return yScale(d["gdp"])
+        });
+    svg.append("path")
+        .datum(gdp)
+        .attr("class", "line")
+        .attr("d", line);
+
+    svg.selectAll("dot").data(gdp).enter()
+        .append("text")
+        .text(function (d) {
+            return d["gdp"];
+        })
+        .attr("font-size", "12px")
+        .attr("fill", "red")
+        .attr("x", function (d) {
+            return xScale(d["年"])
+        })
+        .attr("y", function (d) {
+            return yScale(d["gdp"])
+        })
+        .on("mouseover", function (d) {
+            div.transition()
+                .duration(500)
+                .style("opacity", 0);
+            div.transition()
+                .duration(200)
+                .style("opacity", 9);
+            div.html(
+                "<p>" +
+                d["年"] + ":" + d["gdp"] + "<br/>"
+                + "</p>"
+            )
+                .style("left", xScale(d["年"]) + "px")
+                .style("top", yScale(d["gdp"]) + "px")
+        });
+    div.on("mouseout", function (d) {
+        div.transition().duration(200).style("opacity", 0);
+        //console.log("out!!");
+    });
+
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis)
+        .append("text")
+        .attr("y", -10)
+        .attr("x", 10)
+        .style("text-anchor", "end")
+        .text("GDP(兆円)");
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")").call(xAxis);
+</script>
+</body>
+</html>
