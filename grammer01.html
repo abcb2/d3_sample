@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<head>
+    <script src="d3.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+    var sample = ["foo", "bar", "hoge", "moge"];
+    d3.select("body").selectAll("hoge").data(sample).enter().append("div").text(function(d){
+        return d;
+    })
+</script>
+</body>
+</html>
