@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <script src="d3.min.js"></script>
+    <style type="text/css">
+        @import url("http://d3js.org/style.css?1.10.0");
+        .chart {
+            background: #fff;
+            border: solid 1px #ddd;
+            box-shadow: 0 0 4px rgba(0, 0, 0, .2);
+            font: 10px sans-serif;
+            height: 180px;
+            position: relative;
+            width: 720px;
+        }
+
+        .chart svg {
+            border-left: solid 2px #ddd;
+            left: 360px;
+            position: absolute;
+            top: 0;
+        }
+
+        .chart pre {
+            font: 12px monospace;
+            height: 60px;
+            left: 10px;
+            position: absolute;
+            top: 0;
+            width: 340px;
+        }
+
+        .chart circle.little {
+            fill: #aaa;
+            stroke: #666;
+            stroke-width: 1.5px;
+        }
+
+        .chart button {
+            left: 275px;
+            position: absolute;
+            top: 145px;
+            width: 80px;
+        }
+
+        .chart .data rect {
+            fill: #eee;
+            stroke: #ccc;
+        }
+    </style>
+    <script type="text/javascript">
+        var data = [32, 57, 112],
+            dataEnter = data.concat(293),
+            dataExit = data.slice(0, 2),
+            w = 360,
+            h = 180,
+            x = d3.scalePoint().domain([57, 32, 112]).range([0, w]).padding(0.5),
+            y = d3.scalePoint().domain(data).range([0, h]).padding(1);
+
+    </script>
+</head>
+<body>
+<div id="chart-2" class="chart">
+    <pre class='code'>
+    var circle = svg.selectAll("circle");
+    </pre>
+    <button>Run</button>
+</div>
+<script type="text/javascript">
+    (function () {
+        var svg = d3.select("#chart-2").append("svg")
+            .attr("width", w).attr("height", h);
+        svg.selectAll(".little")
+            .data(data)
+            .enter().append("circle")
+            .attr("class", "little")
+            .attr("cx", x)
+            .attr("cy", y)
+            .attr("r", 12)
+        d3.select("#chart-2 button").on("click", function () {
+            console.log("click!!");
+            svg.selectAll(".select").remove();
+            svg.selectAll(".select")
+                .data(data)
+                .enter().append("circle")
+                .attr("class", "select")
+                .attr("cx", x).attr("cy", y).attr("r", 60)
+                .style("fill", "none")
+                .style("stroke-opacity", 1e-6)
+                .style("stroke-width", 3)
+                .transition()
+                .duration(750)
+                .attr("r", 12)
+                .style("stroke-opacity", 1);
+
+        });
+    })();
+</script>
+</body>
+</html>
