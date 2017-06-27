@@ -4,6 +4,7 @@
     <script src="d3.min.js"></script>
     <style type="text/css">
         @import url("http://d3js.org/style.css?1.10.0");
+
         .chart {
             background: #fff;
             border: solid 1px #ddd;
@@ -60,6 +61,7 @@
     </script>
 </head>
 <body>
+chart-2
 <div id="chart-2" class="chart">
     <pre class='code'>
     var circle = svg.selectAll("circle");
@@ -97,5 +99,106 @@
         });
     })();
 </script>
+
+<br><br>
+chart-3
+<div id="chart-3" class="chart">
+    <pre class="code">
+        circle.style("fill", "steelblue");
+        circle.attr("cy", 90);
+        circle.attr("r", 30);
+    </pre>
+    <button>Run</button>
+</div>
+<script type="text/javascript">
+    (function () {
+        var svg = d3.select("#chart-3").append("svg")
+            .attr("width", w).attr("height", h);
+        var circle = svg.selectAll(".little")
+            .data(data)
+            .enter().append("circle")
+            .attr("class", "little")
+            .attr("cx", x)
+            .attr("cy", y)
+            .attr("r", 12);
+        d3.select("#chart-3 button").on("click", function () {
+            circle.style("fill", "#aaa").attr("r", 24).attr("cy", y);
+            circle.transition().duration(500).delay(0).style("fill", "steelblue");
+            circle.transition().duration(500).delay(500).attr("cy", 90);
+            circle.transition().duration(500).delay(1000).attr("r", 30);
+
+        });
+    })();
+</script>
+
+<br><br>
+chart-4
+<div id="chart-4" class="chart">
+    <pre class="code"></pre>
+    <button>Run</button>
+</div>
+<script type="text/javascript">
+    (function () {
+        var svg = d3.select("#chart-4").append("svg")
+            .attr("width", w)
+            .attr("height", h);
+        var circle = svg.selectAll(".little")
+            .data(data)
+            .enter().append("circle")
+            .attr("class", "little")
+            .attr("cx", x)
+            .attr("cy", y)
+            .attr("r", 12);
+        d3.select("#chart-4 button").on("click", function () {
+            circle.transition().duration(750)
+                .attr("cx", function () {
+                    return Math.random() * w;
+                });
+        });
+    })();
+</script>
+
+<br><br>
+chart-5
+<div id="chart-5" class="chart">
+    <pre class="code">
+        circle.data([32, 57, 112]);
+    </pre>
+    <button>Run</button>
+</div>
+<script type="text/javascript">
+    (function () {
+        var svg = d3.select("#chart-5").append("svg")
+            .attr("width", w)
+            .attr("height", h);
+        svg.selectAll(".little")
+            .data(data)
+            .enter().append("circle")
+            .attr("class", "little")
+            .attr("cx", x)
+            .attr("cy", y)
+            .attr("r", 12);
+        var g = svg.selectAll(".data")
+            .data(data)
+            .enter().append("g")
+            .attr("class", "data")
+            .attr("transform", function (d, i) {
+                return "translate(" + 20 * (i + 1) + ",20)";
+            });
+        g.append("rect")
+            .attr("x", -10)
+            .attr("y", -10)
+            .attr("width", 20)
+            .attr("height", 20);
+        g.append("text")
+            .attr("dy", ".35em")
+            .attr("text-anchor", "middle")
+            .text(String);
+        d3.select("#chart-5 button").on("click", function () {
+            //ここから
+        });
+    })();
+</script>
+
 </body>
 </html>
