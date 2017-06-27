@@ -195,7 +195,15 @@ chart-5
             .attr("text-anchor", "middle")
             .text(String);
         d3.select("#chart-5 button").on("click", function () {
-            //ここから
+            g.attr("transform", function (d, i) {
+                return "translate(" + 20 * (i + 1) + ",20)";
+            }).select("rect").style("opacity", 1);
+            g.transition()
+                .duration(750)
+                .attr("transform", function (d) {
+                    return "translate(" + x(d) + "," + y(d) + ")";
+                })
+                .select("rect").style("opacity", 1e-6);
         });
     })();
 </script>
