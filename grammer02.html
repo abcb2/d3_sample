@@ -50,6 +50,7 @@
         }
     </style>
     <script type="text/javascript">
+        // http://ja.d3js.node.ws/document/tutorial/circle.html
         var data = [32, 57, 112],
             dataEnter = data.concat(293),
             dataExit = data.slice(0, 2),
@@ -205,6 +206,42 @@ chart-5
                 })
                 .select("rect").style("opacity", 1e-6);
         });
+    })();
+</script>
+
+<br><br>
+chart-6
+<div id="chart-6" class="chart">
+    <pre class="code">
+
+    </pre>
+    <button>Run</button>
+</div>
+<script type="text/javascript">
+    (function () {
+        var svg = d3.select("#chart-6").append("svg").attr("width", w).attr("height", h);
+        var g = svg.selectAll("g")
+            .data(data)
+            .enter().append("g").attr("transform", function (d) {
+                return "translate(" + x(d) + "," + y(d) + ")";
+            })
+        g.append("circle")
+            .attr("class", "little")
+            .attr("r", 12);
+        g.append("text")
+            .attr("dy", ".35em")
+            .attr("text-anchor", "middle")
+            .text(String);
+        d3.select("#chart-6 button").on("click", function () {
+            g.attr("transform", function (d) {
+                return "translate(" + x(d) + "," + y(d) + ")";
+            }).select("circle").attr("r", 12);
+            g.transition()
+                .duration(750)
+                .attr("transform", function (d) {
+                    return "translate(" + d + "," + y(d) + ")";
+                }).select("circle").attr("r", Math.sqrt);
+        })
     })();
 </script>
 
