@@ -344,6 +344,7 @@ chart-8
             g.select("circle").attr("r", 1e-6);
             g.select("rect").style("opacity", 1);
             var t = g.transition().duration(750);
+            t.attr("transform", "translate(160, 100)");
             t.select("circle").attr("r", Math.sqrt);
             t.select("rect").style("opacity", 1e-6);
         });
