@@ -246,6 +246,7 @@ chart-6
 </script>
 
 <br><br>
+chart-7
 <div id="chart-7" class="chart">
     <pre class="code">
         <button>Run</button>
@@ -296,6 +297,58 @@ chart-6
 
     })();
 
+</script>
+
+<br><br>
+chart-8
+<div id="chart-8" class="chart">
+    <pre class="code">
+
+    </pre>
+    <button>Run</button>
+</div>
+<script type="text/javascript">
+    (function () {
+        var svg = d3.select("#chart-8").append("svg")
+            .attr("width", w)
+            .attr("height", h);
+        var g = svg.selectAll("g")
+            .data(data).enter().append("g")
+            .attr("transform", function (d) {
+                return "translate(" + x(d) + "," + y(d) + ")";
+            });
+        g.append("circle").attr("class", "little").attr("r", 12);
+        g.append("text").attr("dy", ".35em").attr("text-anchor", "middle").text(String);
+
+        var g = svg.selectAll(".data")
+            .data(dataEnter).enter().append("g")
+            .attr("class", "data")
+            .attr("transform", function (d, i) {
+                return "translate(" + 20 * (i + 1) + ",20)";
+            }).filter(function (d, i) {
+                return i == 3;
+            });
+        g.append("circle")
+            .attr("class", "little")
+            .attr("r", 1e-6);
+        g.append("rect")
+            .attr("x", -10).attr("y", -10)
+            .attr("width", 20).attr("height", 20)
+            .style("fill", "lightgreen").style("stroke", "green");
+        g.append("text")
+            .attr("dy", ".35em")
+            .attr("text-anchor", "middle")
+            .text(String);
+        d3.select("#chart-8 button").on("click", function () {
+            g.attr("transform", "translate(80, 20)");
+            g.select("circle").attr("r", 1e-6);
+            g.select("rect").style("opacity", 1);
+            var t = g.transition().duration(750);
+            t.select("circle").attr("r", Math.sqrt);
+            t.select("rect").style("opacity", 1e-6);
+        });
+
+    })();
 </script>
 
 </body>
