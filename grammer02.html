@@ -352,5 +352,121 @@ chart-8
     })();
 </script>
 
+<br><br>
+chart-9
+<div id="chart-9" class="chart">
+    <pre class="code">
+
+    </pre>
+    <button>Run</button>
+</div>
+<script type="text/javascript">
+    (function () {
+        var svg = d3.select("#chart-9").append("svg")
+            .attr("width", w)
+            .attr("height", h);
+        var g = svg.selectAll(".data")
+            .data(dataEnter).enter().append("g")
+            .attr("class", "data")
+            .attr("transform", function (d, i) {
+                return "translate(" + 20 * (i + 1) + ", 20)";
+            });
+        g.append("circle")
+            .attr("class", "little")
+            .attr("r", 1e-6);
+        g.append("rect")
+            .attr("x", -10).attr("y", -10)
+            .attr("width", 20).attr("height", 20)
+            .style("fill", "lightgreen")
+            .style("stroke", "green");
+        g.append("text")
+            .attr("dy", ".35em")
+            .attr("text-anchor", "middle")
+            .text(String);
+
+        d3.select("#chart-9 button").on("click", function () {
+            g.attr("transform", function (d, i) {
+                return "translate(" + 20 * (i + 1) + ",20)";
+            })
+            g.select("rect").style("opacity", 1);
+            g.select("circle").attr("r", 1e-6);
+
+            var t = g.transition().duration(750);
+            t.attr("transform", function (d, i) {
+                return "translate(" + d + ",90)";
+            });
+            t.select("circle").attr("r", Math.sqrt);
+            t.select("rect").style("opacity", 1e-6);
+        });
+    })();
+</script>
+
+<br><br>
+chart-11
+<div id="chart-11" class="chart">
+    <pre class="code">
+
+    </pre>
+    <button>Run</button>
+</div>
+<script type="text/javascript">
+    (function () {
+        var svg = d3.select("#chart-11").append("svg")
+            .attr("width", w)
+            .attr("height", h);
+
+        var circle = svg.selectAll(".little")
+            .data(data).enter().append("circle")
+            .attr("class", "little")
+            .attr("cx", x)
+            .attr("cy", y)
+            .attr("r", 12)
+            .filter(function (d, i) {
+                return i == 2;
+            });
+        var g = svg.selectAll(".data")
+            .data(dataExit)
+            .enter().append("g")
+            .attr("class", "data")
+            .attr("transform", function (d, i) {
+                return "translate(" + 20 * (i + 1) + ",20)";
+            });
+        g.append("rect")
+            .attr("x", -10)
+            .attr("y", -10)
+            .attr("width", 20)
+            .attr("height", 20);
+
+        g.append("text")
+            .attr("dy", ".35em")
+            .attr("text-anchor", "middle")
+            .text(String);
+
+        d3.select("#chart-11 button").on("click", function () {
+            g
+                .attr("transform", function (d, i) {
+                    return "translate(" + 20 * (i + 1) + ",20)";
+                })
+                .select("rect")
+                .style("opacity", 1);
+
+            g.transition()
+                .duration(750)
+                .attr("transform", function (d) {
+                    return "translate(" + x(d) + "," + y(d) + ")";
+                })
+                .select("rect")
+                .style("opacity", 1e-6);
+
+            circle
+                .style("fill", "#aaa")
+                .style("stroke", "#666")
+                .transition()
+                .duration(750)
+                .style("fill", "lightcoral")
+                .style("stroke", "red");
+        });
+    })();
+</script>
 </body>
 </html>
