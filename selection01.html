@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <script src="d3.min.v3.js"></script>
+    <script type="text/javascript">
+        var margin = {top: 0, right: 40, bottom: 0, left: 40},
+            width = 720,
+            step = 100;
+
+        function tree(leftRoot, rightRoot, outerHight) {
+            if (arguments.length < 3) outerHight = rightRoot, rightRoot = null;
+            var height = outerHight - margin.top - margin.bottom;
+
+            var tree = d3.layout.tree().size([height, 1]).separation(function () {
+                return 1;
+            });
+            var svg = d3.select("body").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .style("margin", "1em 0 1em " + -margin.left + "px");
+            var g = svg.selectAll("g")
+                .data([].concat(
+                    leftRoot ? {type: "left", nodes: tree.nodes(leftRoot)} : [],
+                    rightRoot ? {type: "right", nodes: tree.nodes(rightRoot).map(flip), flipped: true} : []
+                )).enter().append("g")
+                .attr("class", function (d) {
+                    return d.type;
+                })
+                .attr("transform", function (d) {
+                    return "translate(" + (!!d.flipped * width + margin.left) + "," + margin.top + ")";
+                });
+        }
+    </script>
+</head>
+<body>
+
+<div>
+    <script type="text/javascript">
+        tree(
+            {
+                type: "array",
+                name: "array",
+                children: [
+                    {type: "datum", name: "42"}
+                ]
+            },
+            24 * 1);
+    </script>
+</div>
+
+</body>
+</html>
