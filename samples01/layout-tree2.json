@@ -1,0 +1,11 @@
+{
+  "name": "issue01",
+  "type": "issue",
+  "children": [
+    {
+      "name": "issue02",
+      "type": "issue",
+      "children": []
+    }
+  ]
+}

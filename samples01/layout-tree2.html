@@ -1,0 +1,113 @@
+<html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+<script src="../d3.min.v3.js"></script>
+<script>
+  (function () {
+    var width = 760;
+    var height = 450;
+    var svg = d3.select("body").append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("transform", "translate(50, 50)");
+    var tree = d3.layout.tree()
+      .size([400, 400])
+      .children(children);
+
+    function children(d) {
+      return d["children"];
+    }
+
+    d3.json("layout-tree2.json", function (data) {
+      var nodes = tree.nodes(data);
+      var links = tree.links(nodes);
+      var node = svg.selectAll(".node")
+        .data(nodes)
+        .enter()
+        .append("g")
+        .attr("class", "node")
+        .attr("transform", function (d) {
+          return "translate(" + d.y + "," + d.x + ")";
+        });
+      node.append("circle")
+        .attr("r", 4)
+        .attr("fill", "steelblue");
+      node.append("text")
+        .text(function (d) {
+          return d.name
+        })
+        .attr("y", -5);
+      var diagonal = d3.svg.diagonal()
+        .projection(function (d) {
+          return [d.y, d.x]
+        });
+      svg.selectAll(".link")
+        .data(links)
+        .enter()
+        .append("path")
+        .attr("class", "link")
+        .attr("fill", "none")
+        .attr("stroke", "red")
+        .attr("d", diagonal);
+    });
+  })();
+</script>
+
+<script>
+  var width = 760;
+  var height = 450;
+  var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("transform", "translate(150, 150)");
+
+  var tree = d3.layout.tree()
+    .size([200, 200])
+    .children(function (d) {
+      return d["children"];
+    });
+
+  data = {
+    "name": "issue01dayo",
+    "type": "issue",
+    "children": [
+      {"name": "issue02", "type": "issue", "children": []}
+    ]
+  };
+  var nodes = tree.nodes(data);
+  var links = tree.links(nodes);
+  var node = svg.selectAll(".node")
+    .data(nodes)
+    .enter()
+    .append("g")
+    .attr("class", "node")
+    .attr("transform", function (d) {
+      return "translate(" + d.y + "," + d.x + ")";
+    });
+  node.append("circle")
+    .attr("r", 4)
+    .attr("fill", "steelblue");
+  node.append("text")
+    .text(function (d) {
+      return d.name;
+    })
+    .attr("y", -5);
+  var diagonal = d3.svg.diagonal()
+    .projection(function (d) {
+      return [d.y, d.x];
+    });
+  svg.selectAll(".link")
+    .data(links)
+    .enter()
+    .append("path")
+    .attr("class", "link")
+    .attr("fill", "none")
+    .attr("stroke", "purple")
+    .attr("d", diagonal);
+
+
+</script>
+</body>
+</html>
