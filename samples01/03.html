@@ -1,0 +1,62 @@
+<html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+<script src="../d3.min.v3.js"></script>
+<script>
+  var width = 960;
+  var height = 700;
+  var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+  var listData = [30, 70, 60];
+  svg.selectAll("circle")
+    .data(listData)
+    .enter()
+    .append("circle")
+    .attr("r", 10)
+    .attr("fill", function (d, i) {
+      if (d < 50) {
+        return "red";
+      } else {
+        return "green";
+      }
+    })
+    .attr("cx", function (d) {
+      return d * 2
+    })
+    .attr("cy", function (d, i) {
+      return (i + 1) * 50;
+    });
+
+  var dicData = [
+    {"科目": "国語", "点数": 30},
+    {"科目": "算数", "点数": 80},
+    {"科目": "理科", "点数": 95}
+  ]
+  var boxes = svg.selectAll("boxes")
+    .data(dicData)
+    .enter()
+    .append("g");
+  boxes.append("circle")
+    .attr("cy", 300)
+    .attr("r", 10)
+    .attr("fill", "blue")
+    .attr("cx", function (d) {
+      return d["点数"] * 2;
+    });
+  boxes.append("text")
+    .text(function (d) {
+      return d["科目"];
+    })
+    .attr("fill", "gray")
+    .attr("y", 280)
+    .attr("x", function (d) {
+      return d["点数"]*2;
+    })
+    .attr("font-size", 10);
+</script>
+</body>
+</html>
